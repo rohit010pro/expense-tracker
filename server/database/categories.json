@@ -1,0 +1,31 @@
+[{
+  "_id": {
+    "$oid": "65f2a483368c600c48def1f1"
+  },
+  "c_name": "Food",
+  "c_id": 1
+},{
+  "_id": {
+    "$oid": "65f2a483368c600c48def1f2"
+  },
+  "c_name": "Milk",
+  "c_id": 2
+},{
+  "_id": {
+    "$oid": "65f2a483368c600c48def1f3"
+  },
+  "c_name": "Vegetable",
+  "c_id": 3
+},{
+  "_id": {
+    "$oid": "65f2a483368c600c48def1f4"
+  },
+  "c_name": "Grocery",
+  "c_id": 4
+},{
+  "_id": {
+    "$oid": "65f2a483368c600c48def1f5"
+  },
+  "c_name": "Others",
+  "c_id": 5
+}]

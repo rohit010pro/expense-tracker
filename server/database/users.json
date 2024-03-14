@@ -1,0 +1,32 @@
+[{
+  "_id": {
+    "$oid": "65e9587a0a1b2805cfdb2bb3"
+  },
+  "name": "Rohit Kanojiya",
+  "email": "rohit123kanojiya@gmail.com",
+  "password": "12345678",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "65e9590db8215792dc17ab2f"
+  },
+  "name": "Hritik",
+  "email": "hritik123@gmail.com",
+  "password": "12345678",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "65e972185b22b0893d60ffe4"
+  },
+  "name": "Abhishek Bhatt",
+  "email": "abhishek123bhatt@gmail.com",
+  "password": "12345678",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "65eea450f14f2a2fe849c58a"
+  },
+  "name": "Rohit Gupta",
+  "email": "rohit123gupta@gmail.com",
+  "password": "12345678"
+}]

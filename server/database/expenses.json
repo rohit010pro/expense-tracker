@@ -1,0 +1,62 @@
+[{
+  "_id": {
+    "$oid": "65f2bf99a286b47292a0a9be"
+  },
+  "itemName": "item 2",
+  "itemDescription": "weqwerf",
+  "itemCost": 364,
+  "itemCategory": [
+    "1",
+    "2",
+    "3"
+  ],
+  "paymentMode": 1,
+  "shopDetails": {
+    "shopName": "Shop 1",
+    "shopAddress": "shgbsdghb"
+  },
+  "userId": {
+    "$oid": "65e9590db8215792dc17ab2f"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "65f2bfe2a286b47292a0a9c1"
+  },
+  "itemName": "sgvf",
+  "itemDescription": "asfa",
+  "itemCost": 325,
+  "itemCategory": [
+    "4",
+    "5"
+  ],
+  "paymentMode": 0,
+  "shopDetails": {
+    "shopName": "Shop 2",
+    "shopAddress": "wqrfwad"
+  },
+  "userId": {
+    "$oid": "65e9590db8215792dc17ab2f"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "65f2c07ea286b47292a0a9c7"
+  },
+  "itemName": "dgfhtfd",
+  "itemDescription": "sgsdg",
+  "itemCost": 12,
+  "itemCategory": [
+    "1",
+    "2"
+  ],
+  "paymentMode": 1,
+  "shopDetails": {
+    "shopName": "fghd",
+    "shopAddress": "sgfdsg"
+  },
+  "userId": {
+    "$oid": "65e9590db8215792dc17ab2f"
+  },
+  "__v": 0
+}]
