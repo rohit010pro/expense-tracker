@@ -1,0 +1,28 @@
+<app-header></app-header>
+
+<main>
+  <div class="container">
+    <h1>Dashboard</h1>
+
+    <app-cards [numbers]="numbers"></app-cards>
+
+    <app-expenses
+      [expenses]="expenses"
+      (getFormStatus)="changeFormStatus($event)"
+      (onDeleteExpense)="deleteExpense($event)"
+    >
+    </app-expenses>
+
+    <app-chart [expenses]="expenses"></app-chart>
+  </div>
+</main>
+
+<app-form
+  [formOptions]="formOptions"
+  (getFormStatus)="changeFormStatus($event)"
+  (onAddExpense)="addExpense($event)"
+  (onEditExpense)="editExpense($event)"
+>
+</app-form>
+
+<app-footer></app-footer>
