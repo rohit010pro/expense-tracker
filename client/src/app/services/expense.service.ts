@@ -7,7 +7,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   providedIn: 'root',
 })
 
-
 export class ExpenseService {
 
   private apiUrl = "http://127.0.0.1:3000/api/expenses";
@@ -31,12 +30,10 @@ export class ExpenseService {
     return this.http.get<Expense>(url);
   }
 
-
   // Add a Expense
   addExpense(newExpense: Expense): Observable<Expense> {
     return this.http.post<Expense>(this.apiUrl, newExpense, this.httpOptions);
   }
-
 
   // Delete a Expense by ID
   deleteExpense(id: any): Observable<Expense> {

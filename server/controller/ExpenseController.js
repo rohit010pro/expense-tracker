@@ -1,4 +1,4 @@
-const Expense = require("../Model/ExpenseModel");
+const Expense = require("../model/ExpenseModel");
 
 /**
  * Store data
@@ -9,7 +9,7 @@ exports.create = (req, res) => {
         res.status(400).send({ message: "Content can not be emtpy!" });
         return;
     }
-
+    
     // new user
     const newExpense = new Expense({
         itemName: req.body.itemName,
@@ -32,6 +32,12 @@ exports.create = (req, res) => {
                 message: err.message || "Error occurred while creating an expense"
             });
         });
+}
+
+exports.fileUpload = (req, res) => {
+    console.log(req.file);
+    console.log(req.body);
+    res.status(200).send("File Upload");
 }
 
 /**
@@ -169,7 +175,7 @@ exports.numbers = (req, res) => {
             if (data.length === 0)
                 res.status(200).send({ message: "Not data found" });
             else{
-                data[0].avgCost = data[0].avgCost.toFixed(2);
+                data[0].avgCost = +data[0].avgCost.toFixed(2);
                 res.status(200).send(data[0]);
             }
         })
