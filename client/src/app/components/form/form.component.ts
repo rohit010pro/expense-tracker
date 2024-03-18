@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ExpenseService } from '../../services/expense.service';
 import { Expense } from '../../Expense';
@@ -12,13 +12,15 @@ import { CategoryService } from '../../services/category.service';
   styleUrl: './form.component.css'
 })
 
-export class FormComponent implements OnChanges , OnInit{
+export class FormComponent implements OnChanges, OnInit {
   @Input() formOptions: any = {};
   @Output() getFormStatus = new EventEmitter<any>();
   @Output() onAddExpense = new EventEmitter<Expense>();
   @Output() onEditExpense = new EventEmitter<Expense>();
 
-  constructor(private expenseService: ExpenseService, 
+  @ViewChild('inputBill') inputBill: any;
+
+  constructor(private expenseService: ExpenseService,
     private categoryService: CategoryService) { }
 
   // Form handling
@@ -30,11 +32,11 @@ export class FormComponent implements OnChanges , OnInit{
   shopName: string = "";
   shopAddress: string = "";
 
-  categories:any[] = [];
+  categories: any[] = [];
 
   ngOnInit(): void {
     this.categoryService.getCategories().subscribe(response => {
-        this.categories = response;
+      this.categories = response;
     });
   }
 
@@ -56,12 +58,18 @@ export class FormComponent implements OnChanges , OnInit{
 
   // Form Submit
   formSubmit() {
+    const file:File = this.inputBill.nativeElement.files[0];
+    const formData = new FormData();
+    formData.append("billFile", file);
+    console.log(formData);
+    
     const newExpense: Expense = {
       itemName: this.itemName,
       itemDescription: this.itemDescription,
       itemCost: +this.itemCost,
-      itemCategory: this.itemCategory.map(c=> +c),
+      itemCategory: this.itemCategory.map(c => +c),
       paymentMode: +this.paymentMode,
+      billFile: formData,
       shopDetails: {
         shopName: this.shopName,
         shopAddress: this.shopAddress
@@ -78,6 +86,12 @@ export class FormComponent implements OnChanges , OnInit{
     }
 
     this.closeForm();
+  }
+
+
+  fileHandler(event: any) {
+    //event.srcElement.files[0];
+    // console.log(this.inputBill.nativeElement.files[0]);
   }
 
   // Close Form

@@ -1,9 +1,23 @@
 const express = require("express");
 const route = express.Router();
+const multer  = require('multer');
 
 const expenseController = require("./controller/ExpenseController");
 const userController = require("./controller/UserController");
 const categoryController = require("./controller/CategoryController");
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './uploads')
+    },
+    filename: function (req, file, cb) {
+      let extArray = file.mimetype.split("/");
+      let extension = extArray[extArray.length - 1];
+      cb(null, file.fieldname + '-' + Date.now()+ '.' +extension)
+    }
+  });
+const upload = multer({ storage: storage });
+
 
 // API - Expense 
 
@@ -16,6 +30,8 @@ route.post("/api/expenses", expenseController.create);
 route.put("/api/expenses/:id", expenseController.update);
 
 route.delete("/api/expenses/:id", expenseController.delete);
+
+route.post("/api/expenses/upload", upload.single('bill_file'), expenseController.fileUpload);
 
 
 // API - Users

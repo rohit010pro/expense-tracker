@@ -1,4 +1,4 @@
-const Expense = require("../Model/ExpenseModel");
+const Expense = require("../model/ExpenseModel");
 
 /**
  * Store data
@@ -9,7 +9,7 @@ exports.create = (req, res) => {
         res.status(400).send({ message: "Content can not be emtpy!" });
         return;
     }
-
+    
     // new user
     const newExpense = new Expense({
         itemName: req.body.itemName,
@@ -32,6 +32,12 @@ exports.create = (req, res) => {
                 message: err.message || "Error occurred while creating an expense"
             });
         });
+}
+
+exports.fileUpload = (req, res) => {
+    console.log(req.file);
+    console.log(req.body);
+    res.status(200).send("File Upload");
 }
 
 /**
@@ -65,7 +71,10 @@ exports.find = (req, res) => {
             .then(data => {
                 if (!data) {
                     res.status(404).send({ message: "Not found expense with id " + expenseId })
-                } else {
+                } 
+                else if (data.length === 0)
+                    res.status(200).send({ message: "Not expense found" });
+                else {
                     res.status(200).send(data)
                 }
             })
@@ -79,7 +88,10 @@ exports.find = (req, res) => {
     else {
         Expense.find()
             .then(data => {
-                res.status(200).send(data)
+                if (data.length === 0)
+                    res.status(200).send({ message: "Not expenses found" });
+                else
+                    res.status(200).send(data)
             })
             .catch(err => {
                 res.status(500).send({
@@ -160,8 +172,12 @@ exports.numbers = (req, res) => {
         }
     ])
         .then(data => {
-            data[0].avgCost = data[0].avgCost.toFixed(2);
-            res.status(200).send(data[0]);
+            if (data.length === 0)
+                res.status(200).send({ message: "Not data found" });
+            else{
+                data[0].avgCost = +data[0].avgCost.toFixed(2);
+                res.status(200).send(data[0]);
+            }
         })
         .catch(err => {
             res.status(500).send({

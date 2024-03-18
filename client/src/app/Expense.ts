@@ -5,6 +5,7 @@ export interface Expense {
     itemCost: number;
     itemCategory: any;
     paymentMode: number;
+    billFile: any,
     shopDetails: {
         shopName: string;
         shopAddress: string
