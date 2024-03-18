@@ -35,7 +35,7 @@
                     data-name="Item Category">
                     <!-- <option value="" selected disabled>Select</option> -->
                     @for(category of categories; track category.c_id){
-                        <option value="{{ category.c_id }}">{{ category.c_name }}</option>
+                    <option value="{{ category.c_id }}">{{ category.c_name }}</option>
                     }
                 </select>
                 <small class="input_error"></small>
@@ -53,10 +53,27 @@
             </div>
 
             <div class="form_control">
-                <label for="expense_bill" class="input_label">Upload bill:</label>
-                <input type="file" id="expense_bill" name="expense_bill" class="input">
+                <label for="bill_file" class="input_label">Upload bill:</label>
+                <div class="file_input">
+                    <input type="file" id="bill_file" (change)="fileSelected($event)" name="bill_file" class="input" #fileInput>
+
+                    @if(isFileUploaded){
+                    <span>File Uploaded</span>
+                    }
+                    @else if(isFileSelected){
+                    <div class="buttons">
+                        <button class="btn_sm edit" (click)="fileUpload($event)">
+                            <i class="fa-solid fa-upload"></i>
+                        </button>
+                        <button class="btn_sm delete" (click)="fileDelete($event)">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                    }
+                </div>
                 <small class="input_error"></small>
             </div>
+
 
             <h4 style="margin-top: 15px;">Shop Details:</h4>
 

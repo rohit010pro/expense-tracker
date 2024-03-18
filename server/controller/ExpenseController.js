@@ -9,7 +9,6 @@ exports.create = (req, res) => {
         res.status(400).send({ message: "Content can not be emtpy!" });
         return;
     }
-    
     // new user
     const newExpense = new Expense({
         itemName: req.body.itemName,
@@ -35,9 +34,14 @@ exports.create = (req, res) => {
 }
 
 exports.fileUpload = (req, res) => {
-    console.log(req.file);
-    console.log(req.body);
-    res.status(200).send("File Upload");
+    // console.log(req.file);
+    const extArray = req.file.mimetype.split("/");
+    const extension = extArray[extArray.length - 1];
+    res.status(200).send({
+        message: "File Uploaded",
+        fileName: req.file.filename,
+        fileType: extension.toUpperCase()
+    });
 }
 
 /**

@@ -18,7 +18,12 @@ export class FormComponent implements OnChanges, OnInit {
   @Output() onAddExpense = new EventEmitter<Expense>();
   @Output() onEditExpense = new EventEmitter<Expense>();
 
-  @ViewChild('inputBill') inputBill: any;
+  @ViewChild('fileInput') fileInput!: ElementRef;
+
+  isFileSelected:Boolean = false;
+  isFileUploaded:Boolean = false;
+  billFile!: File;
+  uploadedFileName:String="";
 
   constructor(private expenseService: ExpenseService,
     private categoryService: CategoryService) { }
@@ -58,24 +63,20 @@ export class FormComponent implements OnChanges, OnInit {
 
   // Form Submit
   formSubmit() {
-    const file:File = this.inputBill.nativeElement.files[0];
-    const formData = new FormData();
-    formData.append("billFile", file);
-    console.log(formData);
-    
     const newExpense: Expense = {
       itemName: this.itemName,
       itemDescription: this.itemDescription,
       itemCost: +this.itemCost,
       itemCategory: this.itemCategory.map(c => +c),
       paymentMode: +this.paymentMode,
-      billFile: formData,
+      billFile: "",
       shopDetails: {
         shopName: this.shopName,
         shopAddress: this.shopAddress
       },
-      userId: "65e9590db8215792dc17ab2f"
+      userId: "65e9590db8215792dc17ab2f",
     };
+    // console.log(newExpense);
     
     if (this.formOptions.formType === "addForm") {
       this.onAddExpense.emit(newExpense);
@@ -88,10 +89,26 @@ export class FormComponent implements OnChanges, OnInit {
     this.closeForm();
   }
 
+  fileSelected(event:any){
+    this.billFile = event.target.files[0];
+    this.isFileSelected = true;
+  }
 
-  fileHandler(event: any) {
-    //event.srcElement.files[0];
-    // console.log(this.inputBill.nativeElement.files[0]);
+  fileUpload(event: any) {
+    const formParams = new FormData();
+    formParams.append("bill_file", this.billFile);
+    
+    this.expenseService.uploadFile(formParams).subscribe(response=>{
+      this.uploadedFileName = response.fileName;
+      this.isFileUploaded = true;
+      this.fileInput.nativeElement.value="";
+    });
+  }
+
+  fileDelete(event:any){
+    event.target.files = null;
+    this.fileInput.nativeElement.value="";
+    this.isFileSelected = false;
   }
 
   // Close Form

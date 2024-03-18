@@ -1,0 +1,18 @@
+.file_input{
+    display: flex;
+    align-items: center;
+}
+
+.file_input .input{
+    border: none;
+}
+
+.file_input .buttons{
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+}
+
+.file_input .buttons .btn_sm{
+    padding: 7px 8px;
+}

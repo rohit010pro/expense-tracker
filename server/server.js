@@ -21,7 +21,6 @@ app.use(cors());
 // parse request to body-parser
 app.use(bodyparser.urlencoded({ extended : true}))
 
-// set middlewares
 app.use(express.json());
 app.use(accessLog);
 
