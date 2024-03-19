@@ -14,6 +14,7 @@
                     <th id="cost_filter" class="filter">Cost</th>
                     <th>Category</th>
                     <th id="paymode_filter" class="filter">Payment Mode</th>
+                    <th>Bill File</th>
                     <th>Shop Details</th>
                     <th>Action</th>
                 </tr>
@@ -38,8 +39,16 @@
                         }
                     </td>
                     <td>
-                        {{"Name: " + exp.shopDetails.shopName}} <br>
-                        {{"Address: " + exp.shopDetails.shopAddress}}
+                        @if(exp.billFile){
+                            <a href="http://127.0.0.1:3000/uploads/{{exp.billFile}}" download>
+                            <i class="fa fa-link"></i></a>
+                        }@else{
+                            {{"-"}}
+                        }
+                    </td>
+                    <td>
+                        {{"Name: " + (exp.shopDetails.shopName ? exp.shopDetails.shopName : "-")}} <br>
+                        {{"Address: " + (exp.shopDetails.shopAddress ? exp.shopDetails.shopAddress : "-")}}
                     </td>
                     <td>
                         <button class="btn_sm edit" (click)="editExpense(exp._id)">

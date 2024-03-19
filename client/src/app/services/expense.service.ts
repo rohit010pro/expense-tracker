@@ -26,7 +26,7 @@ export class ExpenseService {
 
   // Get a Expense by ID
   getExpense(id: any): Observable<Expense> {
-    const url = `${this.apiUrl}?id=${id}`; 
+    const url = `${this.apiUrl}?id=${id}`;
     return this.http.get<Expense>(url);
   }
 
@@ -41,7 +41,6 @@ export class ExpenseService {
     return this.http.delete<Expense>(url);
   }
 
-
   // Edit a Expense by ID
   editExpense(newExpense: Expense): Observable<Expense> {
     const url = `${this.apiUrl}/${newExpense._id}`;
@@ -50,7 +49,18 @@ export class ExpenseService {
 
   // Get average,total cost and total Expenses
   getNumbers() {
-    const url = `${this.apiUrl}/numbers`; 
+    const url = `${this.apiUrl}/numbers`;
     return this.http.get<any>(url);
+  }
+
+  // Upload a File
+  uploadFile(formParams:any): Observable<any> {
+    const uploadUrl = `${this.apiUrl}/file/add`;
+    return this.http.post<any>(uploadUrl, formParams);
+  }
+
+  deleteFile(fileName:string): Observable<any> {
+    const deleteUrl = `${this.apiUrl}/file/delete/${fileName}`;
+    return this.http.delete<any>(deleteUrl);
   }
 }

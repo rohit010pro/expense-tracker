@@ -21,8 +21,10 @@ app.use(cors());
 // parse request to body-parser
 app.use(bodyparser.urlencoded({ extended : true}))
 
-// set middlewares
 app.use(express.json());
+
+app.use('/uploads', express.static('uploads'))
+
 app.use(accessLog);
 
 app.use("/", routes);

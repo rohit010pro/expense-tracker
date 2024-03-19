@@ -15,6 +15,7 @@ var expenseSchema = new mongoose.Schema({
     },
     itemCategory: [String],
     paymentMode: Number,
+    billFile: String,
     shopDetails: {
         shopName: String,
         shopAddress: String

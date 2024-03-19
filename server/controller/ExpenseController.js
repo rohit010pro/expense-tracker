@@ -1,5 +1,5 @@
 const Expense = require("../model/ExpenseModel");
-
+const fs = require("fs");
 /**
  * Store data
  */
@@ -9,7 +9,6 @@ exports.create = (req, res) => {
         res.status(400).send({ message: "Content can not be emtpy!" });
         return;
     }
-    
     // new user
     const newExpense = new Expense({
         itemName: req.body.itemName,
@@ -17,6 +16,7 @@ exports.create = (req, res) => {
         itemCost: req.body.itemCost,
         itemCategory: req.body.itemCategory,
         paymentMode: req.body.paymentMode,
+        billFile: req.body.billFile,
         shopDetails: req.body.shopDetails,
         userId: req.body.userId
     })
@@ -34,10 +34,38 @@ exports.create = (req, res) => {
         });
 }
 
+/**
+ * Upload File
+ * file will upload in middleware using multer
+ */
 exports.fileUpload = (req, res) => {
-    console.log(req.file);
-    console.log(req.body);
-    res.status(200).send("File Upload");
+    const extArray = req.file.mimetype.split("/");
+    const extension = extArray[extArray.length - 1];
+    res.status(200).send({
+        status: "succes",
+        message: "File Uploaded",
+        fileName: req.file.filename,
+        fileType: extension.toUpperCase()
+    });
+}
+
+/**
+ * Delete File
+ */
+exports.fileDelete = (req, res) => {
+    const path = "uploads/" + req.params.file_name;
+    fs.unlink(path, (err) => {
+        if (err) {
+            console.log(err);
+            res.send({
+                message:"File not found with name "+ req.params.file_name
+            }) 
+        }
+        else
+        res.send({
+            message:"File Deleted with name "+ req.params.file_name
+        })          
+    });
 }
 
 /**
@@ -72,8 +100,6 @@ exports.find = (req, res) => {
                 if (!data) {
                     res.status(404).send({ message: "Not found expense with id " + expenseId })
                 } 
-                else if (data.length === 0)
-                    res.status(200).send({ message: "Not expense found" });
                 else {
                     res.status(200).send(data)
                 }
@@ -88,9 +114,6 @@ exports.find = (req, res) => {
     else {
         Expense.find()
             .then(data => {
-                if (data.length === 0)
-                    res.status(200).send({ message: "Not expenses found" });
-                else
                     res.status(200).send(data)
             })
             .catch(err => {
