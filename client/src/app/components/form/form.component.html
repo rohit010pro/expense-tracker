@@ -5,57 +5,62 @@
             <div id="model_close_btn" class="model_close" (click)="closeForm()">&#x2715;</div>
         </div>
 
-        <form (ngSubmit)="formSubmit()" enctype="multipart/form-data">
-            <input type="hidden" id="item_id" name="item_id" value="">
-
+        <form [formGroup]="expenseForm" (ngSubmit)="formSubmit()" enctype="multipart/form-data">
             <div class="form_control">
                 <label for="item_name" class="input_label">Item Name:</label>
-                <input type="text" id="item_name" name="item_name" [(ngModel)]="itemName" class="input"
-                    data-name="Item name">
-                <small class="input_error"></small>
+                <input type="text" id="item_name" class="input" formControlName="itemName">
+                @if (expenseForm.get('itemName')?.hasError('required') && expenseForm.get('itemName')?.touched) {
+                <small class="input_error">Item name is required</small>
+                }
             </div>
 
             <div class="form_control">
                 <label for="item_description" class="input_label">Item Description:</label>
-                <textarea class="input" id="item_description" name="item_description" [(ngModel)]="itemDescription"
-                    rows="3" data-name="Item Description"></textarea>
-                <small class="input_error"></small>
+                <textarea class="input" id="item_description" formControlName="itemDescription" rows="3"></textarea>
+                @if (expenseForm.get('itemDescription')?.hasError('required') &&
+                expenseForm.get('itemDescription')?.touched) {
+                <small class="input_error">Item Description is required</small>
+                }
             </div>
 
             <div class="form_control">
                 <label for="item_cost" class="input_label">Item Cost:</label>
-                <input type="number" id="item_cost" name="item_cost" [(ngModel)]="itemCost" class="input"
-                    data-name="Item Cost">
-                <small class="input_error"></small>
+                <input type="number" id="item_cost" formControlName="itemCost" class="input">
+                @if (expenseForm.get('itemCost')?.hasError('required') && expenseForm.get('itemCost')?.touched) {
+                <small class="input_error">Item Cost is required</small>
+                }
             </div>
 
             <div class="form_control">
                 <label for="item_category" class="input_label">Item Category:</label>
-                <select id="item_category" name="item_category[]" [(ngModel)]="itemCategory" class="input" multiple
-                    data-name="Item Category">
+                <select id="item_category" class="input" formControlName="itemCategory" multiple>
                     @for(category of categories; track category.c_id){
                     <option value="{{ category.c_id }}">{{ category.c_name }}</option>
                     }
                 </select>
-                <small class="input_error"></small>
+                @if (expenseForm.get('itemCategory')?.hasError('required') && expenseForm.get('itemCategory')?.touched)
+                {
+                <small class="input_error">Item Category is required</small>
+                }
             </div>
 
             <div class="form_control">
                 <label for="payment_mode" class="input_label">Payment Mode:</label>
-                <select id="payment_mode" name="payment_mode" [(ngModel)]="paymentMode" class="input"
-                    data-name="Payment mode">
+                <select id="payment_mode" class="input" formControlName="paymentMode">
                     <option value="" selected disabled>Select</option>
                     <option value="1">Online</option>
                     <option value="0">Offline</option>
                 </select>
-                <small class="input_error"></small>
+                @if (expenseForm.get('paymentMode')?.hasError('required') && expenseForm.get('paymentMode')?.touched) {
+                <small class="input_error">Payment mode is required</small>
+                }
             </div>
 
             <div class="form_control">
                 <label for="bill_file" class="input_label">Upload bill:</label>
                 @if(!isFileUploaded){
                 <div class="file_input">
-                    <input type="file" id="bill_file" (change)="fileSelect($event)" name="bill_file" class="input" #fileInput> 
+                    <input type="file" id="bill_file" class="input" (change)="fileSelect($event)" #fileInput>
                     @if(isFileSelected){
                     <div class="buttons">
                         <button type="button" class="btn_sm edit" (click)="fileUpload()">
@@ -69,10 +74,10 @@
                 </div>
                 }
                 @if(isFileUploaded){
-                    <div class="file_result">
-                        <div class="msg">Uploaded file: {{uploadedFileName}}</div>
-                        <button type="button" class="btn_sm delete" (click)="fileDelete()">Delete file</button>
-                    </div>    
+                <div class="file_result">
+                    <div class="msg">Uploaded: {{uploadedFileName}}</div>
+                    <button type="button" class="btn_sm delete" (click)="fileDelete()">Delete file</button>
+                </div>
                 }
                 <small class="input_error"></small>
             </div>
@@ -81,21 +86,19 @@
 
             <div class="form_control">
                 <label for="shop_name" class="input_label">Shop Name:</label>
-                <input type="text" id="shop_name" name="shop_name" [(ngModel)]="shopName" class="input"
-                    data-name="Shop name">
-                <small class="input_error"></small>
+                <input type="text" id="shop_name" class="input" formControlName="shopName">
             </div>
 
             <div class="form_control">
                 <label for="shop_address" class="input_label">Shop Address:</label>
-                <textarea class="input" id="shop_address" name="shop_address" [(ngModel)]="shopAddress" rows="3"
-                    data-name="Shop Address"></textarea>
+                <textarea class="input" id="shop_address" class="input" formControlName="shopAddress"
+                    rows="3"></textarea>
                 <small class="input_error"></small>
             </div>
 
             <div class="btn_group">
                 <button type="submit" class="btn">Save</button>
-                <button type="reset" class="btn reset">Reset</button>
+                <button type="reset" (click)="resetForm()" class="btn reset">Reset</button>
             </div>
         </form>
     </div>

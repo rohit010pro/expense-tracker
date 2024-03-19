@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import Chart from 'chart.js/auto';
 import { CategoryService } from '../../services/category.service';
+import { Expense } from '../../Expense';
 
 @Component({
   selector: 'app-chart',
@@ -10,7 +11,7 @@ import { CategoryService } from '../../services/category.service';
   styleUrl: './chart.component.css'
 })
 export class ChartComponent implements OnChanges, OnInit {
-  @Input() expenses: any = {};
+  @Input() expenses: Expense[] = [];
   chart: any = [];
 
   categories: any = {};
@@ -27,7 +28,7 @@ export class ChartComponent implements OnChanges, OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (Object.keys(this.expenses).length !== 0) {
+    if (this.expenses.length !== 0) {
       for (const key in this.categories)
         this.categoriesCount[this.categories[key]] = 0;
       this.drawChart();

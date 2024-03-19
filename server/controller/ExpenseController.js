@@ -100,8 +100,6 @@ exports.find = (req, res) => {
                 if (!data) {
                     res.status(404).send({ message: "Not found expense with id " + expenseId })
                 } 
-                else if (data.length === 0)
-                    res.status(200).send({ message: "Not expense found" });
                 else {
                     res.status(200).send(data)
                 }
@@ -116,9 +114,6 @@ exports.find = (req, res) => {
     else {
         Expense.find()
             .then(data => {
-                if (data.length === 0)
-                    res.status(200).send({ message: "Not expenses found" });
-                else
                     res.status(200).send(data)
             })
             .catch(err => {
