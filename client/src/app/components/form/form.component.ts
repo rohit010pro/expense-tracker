@@ -148,6 +148,7 @@ export class FormComponent implements OnChanges, OnInit {
   }
 
   resetForm() {
+    this.isFileUploaded = false
     this.isFileSelected = false;
     this.expenseForm.reset();
   }
