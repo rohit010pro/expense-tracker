@@ -33,7 +33,6 @@
                 <label for="item_category" class="input_label">Item Category:</label>
                 <select id="item_category" name="item_category[]" [(ngModel)]="itemCategory" class="input" multiple
                     data-name="Item Category">
-                    <!-- <option value="" selected disabled>Select</option> -->
                     @for(category of categories; track category.c_id){
                     <option value="{{ category.c_id }}">{{ category.c_name }}</option>
                     }
@@ -54,26 +53,29 @@
 
             <div class="form_control">
                 <label for="bill_file" class="input_label">Upload bill:</label>
+                @if(!isFileUploaded){
                 <div class="file_input">
-                    <input type="file" id="bill_file" (change)="fileSelected($event)" name="bill_file" class="input" #fileInput>
-
-                    @if(isFileUploaded){
-                    <span>File Uploaded</span>
-                    }
-                    @else if(isFileSelected){
+                    <input type="file" id="bill_file" (change)="fileSelect($event)" name="bill_file" class="input" #fileInput> 
+                    @if(isFileSelected){
                     <div class="buttons">
-                        <button class="btn_sm edit" (click)="fileUpload($event)">
+                        <button type="button" class="btn_sm edit" (click)="fileUpload()">
                             <i class="fa-solid fa-upload"></i>
                         </button>
-                        <button class="btn_sm delete" (click)="fileDelete($event)">
+                        <button type="button" class="btn_sm delete" (click)="fileUnselect($event)">
                             <i class="fa-solid fa-trash"></i>
                         </button>
                     </div>
                     }
                 </div>
+                }
+                @if(isFileUploaded){
+                    <div class="file_result">
+                        <div class="msg">Uploaded file: {{uploadedFileName}}</div>
+                        <button type="button" class="btn_sm delete" (click)="fileDelete()">Delete file</button>
+                    </div>    
+                }
                 <small class="input_error"></small>
             </div>
-
 
             <h4 style="margin-top: 15px;">Shop Details:</h4>
 

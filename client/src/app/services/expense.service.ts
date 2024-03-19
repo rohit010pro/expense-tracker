@@ -55,7 +55,12 @@ export class ExpenseService {
 
   // Upload a File
   uploadFile(formParams:any): Observable<any> {
-    const uploadUrl = this.apiUrl + "/upload";
+    const uploadUrl = `${this.apiUrl}/file/add`;
     return this.http.post<any>(uploadUrl, formParams);
+  }
+
+  deleteFile(fileName:string): Observable<any> {
+    const deleteUrl = `${this.apiUrl}/file/delete/${fileName}`;
+    return this.http.delete<any>(deleteUrl);
   }
 }

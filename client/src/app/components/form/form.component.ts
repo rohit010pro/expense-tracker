@@ -20,10 +20,10 @@ export class FormComponent implements OnChanges, OnInit {
 
   @ViewChild('fileInput') fileInput!: ElementRef;
 
-  isFileSelected:Boolean = false;
-  isFileUploaded:Boolean = false;
+  isFileSelected:boolean = false;
+  isFileUploaded:boolean = false;
   billFile!: File;
-  uploadedFileName:String="";
+  uploadedFileName:string="";
 
   constructor(private expenseService: ExpenseService,
     private categoryService: CategoryService) { }
@@ -57,26 +57,33 @@ export class FormComponent implements OnChanges, OnInit {
         this.paymentMode = expenseToEdit.paymentMode;
         this.shopName = expenseToEdit.shopDetails.shopName;
         this.shopAddress = expenseToEdit.shopDetails.shopAddress;
+
+        this.uploadedFileName = expenseToEdit.billFile;
+        this.isFileUploaded = expenseToEdit.billFile ? true : false;
       });
     }
   }
 
   // Form Submit
   formSubmit() {
+    if(this.isFileSelected && !this.isFileUploaded){
+      alert("Please first upload file");
+      return;
+    }
+
     const newExpense: Expense = {
       itemName: this.itemName,
       itemDescription: this.itemDescription,
       itemCost: +this.itemCost,
       itemCategory: this.itemCategory.map(c => +c),
       paymentMode: +this.paymentMode,
-      billFile: "",
+      billFile: this.uploadedFileName,
       shopDetails: {
         shopName: this.shopName,
         shopAddress: this.shopAddress
       },
       userId: "65e9590db8215792dc17ab2f",
     };
-    // console.log(newExpense);
     
     if (this.formOptions.formType === "addForm") {
       this.onAddExpense.emit(newExpense);
@@ -89,12 +96,28 @@ export class FormComponent implements OnChanges, OnInit {
     this.closeForm();
   }
 
-  fileSelected(event:any){
+
+  fileSelect(event:any){
     this.billFile = event.target.files[0];
     this.isFileSelected = true;
   }
+  fileUnselect(event:any){
+    this.fileInput.nativeElement.value="";
+    this.isFileSelected = false;
+  }
 
-  fileUpload(event: any) {
+  fileUpload() {
+    const extArray = this.billFile.type.split("/");
+    const extension = extArray[extArray.length - 1];
+    const allowedFileTypes = ["pdf", "jpeg", "jpg", "heic", "csv", "msword", "vnd.ms-excel",
+      "vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "vnd.openxmlformats-officedocument.wordprocessingml.document"];
+
+    if (!allowedFileTypes.includes(extension)) {
+      alert("Please upload file in pdf, jpg, xls, doc format");
+      return;
+    }
+    
     const formParams = new FormData();
     formParams.append("bill_file", this.billFile);
     
@@ -104,11 +127,12 @@ export class FormComponent implements OnChanges, OnInit {
       this.fileInput.nativeElement.value="";
     });
   }
-
-  fileDelete(event:any){
-    event.target.files = null;
-    this.fileInput.nativeElement.value="";
-    this.isFileSelected = false;
+  fileDelete(){
+    this.expenseService.deleteFile(this.uploadedFileName).subscribe(response=>{
+      this.uploadedFileName = "";
+      this.isFileSelected = false;
+      this.isFileUploaded = false;
+    });
   }
 
   // Close Form
@@ -121,6 +145,8 @@ export class FormComponent implements OnChanges, OnInit {
     this.paymentMode = -1;
     this.shopName = "";
     this.shopAddress = "";
+    
+    this.isFileSelected=false;
 
     this.getFormStatus.emit({
       formType: "",

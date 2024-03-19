@@ -16,3 +16,20 @@
 .file_input .buttons .btn_sm{
     padding: 7px 8px;
 }
+
+.file_result{
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.file_result .msg{
+    flex-grow: 1;
+    color: green;
+    font-size: 13px;
+    width: max-content;
+}
+
+.file_result .btn_sm{
+    font-size: 11px;
+}

@@ -1,5 +1,5 @@
 const Expense = require("../model/ExpenseModel");
-
+const fs = require("fs");
 /**
  * Store data
  */
@@ -16,6 +16,7 @@ exports.create = (req, res) => {
         itemCost: req.body.itemCost,
         itemCategory: req.body.itemCategory,
         paymentMode: req.body.paymentMode,
+        billFile: req.body.billFile,
         shopDetails: req.body.shopDetails,
         userId: req.body.userId
     })
@@ -33,14 +34,37 @@ exports.create = (req, res) => {
         });
 }
 
+/**
+ * Upload File
+ * file will upload in middleware using multer
+ */
 exports.fileUpload = (req, res) => {
-    // console.log(req.file);
     const extArray = req.file.mimetype.split("/");
     const extension = extArray[extArray.length - 1];
     res.status(200).send({
+        status: "succes",
         message: "File Uploaded",
         fileName: req.file.filename,
         fileType: extension.toUpperCase()
+    });
+}
+
+/**
+ * Delete File
+ */
+exports.fileDelete = (req, res) => {
+    const path = "uploads/" + req.params.file_name;
+    fs.unlink(path, (err) => {
+        if (err) {
+            console.log(err);
+            res.send({
+                message:"File not found with name "+ req.params.file_name
+            }) 
+        }
+        else
+        res.send({
+            message:"File Deleted with name "+ req.params.file_name
+        })          
     });
 }
 
