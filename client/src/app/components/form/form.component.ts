@@ -105,7 +105,7 @@ export class FormComponent implements OnChanges, OnInit {
       this.onEditExpense.emit(newExpense);
     }
 
-    this.closeForm();
+    this.closeForm(null);
   }
 
 
@@ -157,7 +157,10 @@ export class FormComponent implements OnChanges, OnInit {
     this.expenseForm.reset();
   }
 
-  closeForm() {
+  closeForm(event:any) {
+    if(event && event.target != event.currentTarget)
+      return
+    
     this.resetForm();
 
     this.getFormStatus.emit({
