@@ -16,6 +16,8 @@ yarn-error.log
 # dotenv environment variables file
 /server/.env
 
+/server/uploads/*
+
 # IDEs and editors
 .idea/
 .project
