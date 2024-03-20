@@ -4,9 +4,7 @@ const bodyparser = require("body-parser");
 const cors = require('cors');
 
 const { accessLog, errorLog, notFound } = require("./middleware/middleware");
-
 const routes = require("./router");
-
 const connectDB = require('./database/connection');
 
 const app = express();
@@ -16,12 +14,15 @@ const PORT = process.env.PORT || 3000;
 connectDB(); 
 
 // Set cores in request header
-app.use(cors()); 
+app.use(cors({
+    origin: process.env.CORS_ORIGIN,
+    credentials: true
+}))
 
 // parse request to body-parser
-app.use(bodyparser.urlencoded({ extended : true}))
+app.use(bodyparser.urlencoded({ extended : true, limit: "16kb"}))
 
-app.use(express.json());
+app.use(express.json({limit: "16kb"}));
 
 app.use('/uploads', express.static('uploads'))
 
