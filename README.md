@@ -49,3 +49,15 @@ $ npm run server
 ```
 
 Server will start at `http://localhost:3000`. The server will automatically reload if any of the source files changes.
+
+## MongoDB setup
+
+Create ".env" file in the server directory and paste the below code.
+
+```js
+# MongoDB Connection String
+MONGO_URI="your_mongodb_connection_string"
+
+# Server port
+PORT=3000
+```
