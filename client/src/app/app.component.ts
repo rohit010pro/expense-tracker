@@ -73,7 +73,8 @@ export class AppComponent implements OnInit {
   }
 
   deleteExpense($event: any) {
-    this.expenseService.deleteExpense($event).subscribe(() => {
+    this.expenseService.deleteExpense($event).subscribe((response) => {
+      this.expenseService.deleteFile(response.data.billFile).subscribe();
       this.expenses = this.expenses.filter(exp => {
         return exp._id !== $event;
       });

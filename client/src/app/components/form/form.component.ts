@@ -38,7 +38,7 @@ export class FormComponent implements OnChanges, OnInit {
       itemDescription: new FormControl("", [Validators.required]),
       itemCost: new FormControl(0, [Validators.required]),
       itemCategory: new FormControl([], [Validators.required]),
-      paymentMode: new FormControl(-1, [Validators.required]),
+      paymentMode: new FormControl(null, [Validators.required]),
       shopName: new FormControl(""),
       shopAddress: new FormControl("")
     });
@@ -127,6 +127,10 @@ export class FormComponent implements OnChanges, OnInit {
 
     if (!allowedFileTypes.includes(extension)) {
       alert("Please upload file in pdf, jpg, csv, xls, doc format");
+      return;
+    }
+    if(this.billFile.size > 4*1000*1000){
+      alert("File size must be less than or equal to 4MB");
       return;
     }
 

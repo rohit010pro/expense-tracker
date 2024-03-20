@@ -163,7 +163,7 @@ exports.delete = (req, res) => {
             if (!data)
                 res.status(404).send({ message: "Not found expense with id " + expenseId });
             else
-                res.status(200).send({ message: "Data deleted successfully" });
+                res.status(200).send({ data, message: "Data deleted successfully" });
         })
         .catch(err => {
             res.status(500).send({
