@@ -13,7 +13,7 @@ var expenseSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    itemCategory: [String],
+    itemCategory: [Number],
     paymentMode: Number,
     billFile: String,
     shopDetails: {

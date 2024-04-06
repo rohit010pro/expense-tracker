@@ -59,7 +59,7 @@ export class FormComponent implements OnChanges, OnInit {
             itemName: expenseToEdit.itemName,
             itemDescription: expenseToEdit.itemDescription,
             itemCost: expenseToEdit.itemCost,
-            itemCategory: expenseToEdit.itemCategory,
+            itemCategory: expenseToEdit.itemCategory.map((c:any) => c+""),
             paymentMode: expenseToEdit.paymentMode,
             shopName: expenseToEdit.shopDetails.shopName,
             shopAddress: expenseToEdit.shopDetails.shopAddress
