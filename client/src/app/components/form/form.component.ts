@@ -23,6 +23,7 @@ export class FormComponent implements OnChanges, OnInit {
   @ViewChild('fileInput') fileInput!: ElementRef;
   isFileSelected: boolean = false;
   isFileUploaded: boolean = false;
+  isFileDeleted: boolean = false;
   billFile!: File;
   uploadedFileName: string = "";
 
@@ -38,7 +39,7 @@ export class FormComponent implements OnChanges, OnInit {
       itemDescription: new FormControl("", [Validators.required]),
       itemCost: new FormControl(0, [Validators.required]),
       itemCategory: new FormControl([], [Validators.required]),
-      paymentMode: new FormControl(-1, [Validators.required]),
+      paymentMode: new FormControl(null, [Validators.required]),
       shopName: new FormControl(""),
       shopAddress: new FormControl("")
     });
@@ -104,8 +105,8 @@ export class FormComponent implements OnChanges, OnInit {
       newExpense._id = this.formOptions.editExpenseId;
       this.onEditExpense.emit(newExpense);
     }
-
-    this.closeForm();
+    this.resetForm();
+    this.closeForm(null);
   }
 
 
@@ -129,6 +130,10 @@ export class FormComponent implements OnChanges, OnInit {
       alert("Please upload file in pdf, jpg, csv, xls, doc format");
       return;
     }
+    if(this.billFile.size > 4*1000*1000){
+      alert("File size must be less than or equal to 4MB");
+      return;
+    }
 
     const formParams = new FormData();
     formParams.append("bill_file", this.billFile);
@@ -140,20 +145,32 @@ export class FormComponent implements OnChanges, OnInit {
     });
   }
   fileDelete() {
-    this.expenseService.deleteFile(this.uploadedFileName).subscribe(response => {
-      this.uploadedFileName = "";
-      this.isFileSelected = false;
-      this.isFileUploaded = false;
-    });
+    if (confirm("Do you want to delete this file?")) {
+      this.expenseService.deleteFile(this.uploadedFileName).subscribe(response => {
+        this.uploadedFileName = "";
+        this.isFileSelected = false;
+        this.isFileUploaded = false;
+        this.isFileDeleted = true;
+      });
+    }
   }
 
   resetForm() {
     this.isFileUploaded = false
     this.isFileSelected = false;
+    this.isFileDeleted = false;
     this.expenseForm.reset();
   }
 
-  closeForm() {
+  closeForm(event:any) {
+    if(event && event.target != event.currentTarget)
+      return;
+    
+    if(this.isFileUploaded || this.isFileDeleted){
+      alert("Please save this expense");
+      return;
+    }
+
     this.resetForm();
 
     this.getFormStatus.emit({

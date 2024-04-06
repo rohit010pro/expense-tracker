@@ -1,8 +1,8 @@
-<div id="model_wrapper" [class]="formOptions.showForm">
+<div id="model_wrapper" [class]="formOptions.showForm" (click)="closeForm($event)">
     <div class="model">
         <div class="model_header">
             <h3 id="model_title">{{ formOptions.formTitle || "Expense Form" }}</h3>
-            <div id="model_close_btn" class="model_close" (click)="closeForm()">&#x2715;</div>
+            <div id="model_close_btn" class="model_close" (click)="closeForm($event)">&#x2715;</div>
         </div>
 
         <form [formGroup]="expenseForm" (ngSubmit)="formSubmit()" enctype="multipart/form-data">

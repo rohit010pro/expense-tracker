@@ -53,18 +53,25 @@ exports.fileUpload = (req, res) => {
  * Delete File
  */
 exports.fileDelete = (req, res) => {
-    const path = "uploads/" + req.params.file_name;
+    const fileName = req.params.file_name;
+    const path = "uploads/" + fileName;
+
     fs.unlink(path, (err) => {
         if (err) {
             console.log(err);
             res.send({
-                message:"File not found with name "+ req.params.file_name
-            }) 
+                message: "File not found with name " + fileName
+            })
         }
-        else
-        res.send({
-            message:"File Deleted with name "+ req.params.file_name
-        })          
+        else {
+            Expense.updateOne({ billFile: fileName }, { $set: { billFile: "" } })
+                .then(data => { })
+                .catch(err => { });
+
+            res.send({
+                message: "File Deleted with name " + fileName
+            })
+        }
     });
 }
 
@@ -99,7 +106,7 @@ exports.find = (req, res) => {
             .then(data => {
                 if (!data) {
                     res.status(404).send({ message: "Not found expense with id " + expenseId })
-                } 
+                }
                 else {
                     res.status(200).send(data)
                 }
@@ -114,7 +121,7 @@ exports.find = (req, res) => {
     else {
         Expense.find()
             .then(data => {
-                    res.status(200).send(data)
+                res.status(200).send(data)
             })
             .catch(err => {
                 res.status(500).send({
@@ -163,7 +170,7 @@ exports.delete = (req, res) => {
             if (!data)
                 res.status(404).send({ message: "Not found expense with id " + expenseId });
             else
-                res.status(200).send({ message: "Data deleted successfully" });
+                res.status(200).send({ data, message: "Data deleted successfully" });
         })
         .catch(err => {
             res.status(500).send({
@@ -197,7 +204,7 @@ exports.numbers = (req, res) => {
         .then(data => {
             if (data.length === 0)
                 res.status(200).send({ message: "Not data found" });
-            else{
+            else {
                 data[0].avgCost = +data[0].avgCost.toFixed(2);
                 res.status(200).send(data[0]);
             }

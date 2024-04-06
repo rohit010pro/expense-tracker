@@ -36,9 +36,9 @@ export class ExpenseService {
   }
 
   // Delete a Expense by ID
-  deleteExpense(id: any): Observable<Expense> {
+  deleteExpense(id: any): Observable<any> {
     const url = `${this.apiUrl}/${id}`;
-    return this.http.delete<Expense>(url);
+    return this.http.delete<any>(url);
   }
 
   // Edit a Expense by ID
