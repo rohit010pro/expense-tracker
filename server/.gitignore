@@ -8,15 +8,15 @@
 
 # Node
 /node_modules
-/client/node_modules
-/server/node_modules
 npm-debug.log
 yarn-error.log
 
 # dotenv environment variables file
-/server/.env
+.env
+*.env
 
-/server/uploads/*
+# Uploads directory
+# /uploads
 
 # IDEs and editors
 .idea/
@@ -28,7 +28,6 @@ yarn-error.log
 *.sublime-workspace
 
 # Visual Studio Code
-/client/.vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
