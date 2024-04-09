@@ -2,10 +2,10 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
-    "start":"node server.js",
-    "server": "node --watch server.js"
+    "start":"node index.js",
+    "server": "node --watch index.js"
   },
   "keywords": [],
   "author": "",
