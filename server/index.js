@@ -29,7 +29,7 @@ app.use('/uploads', express.static('uploads'))
 app.use(accessLog);
 
 app.get("/",(req, res)=>{
-    res.status(200).send(`Server is running`);
+    res.status(200).send(`<h1>Server is Running</h1>`);
 });
 
 app.use("/", routes);
