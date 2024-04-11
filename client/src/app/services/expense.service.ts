@@ -9,7 +9,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 export class ExpenseService {
 
-  private apiUrl = "https://expense-tracker-server-express.vercel.app/api/expenses";
+  private apiUrl = "https://api-expense-tracker.vercel.app/api/expenses";
 
   private httpOptions = {
     headers: new HttpHeaders({

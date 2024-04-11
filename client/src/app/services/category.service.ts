@@ -8,7 +8,7 @@ import { Category } from "../Category";
 })
 export class CategoryService {
 
-  private apiUrl = "https://expense-tracker-server-express.vercel.app/api/categories";
+  private apiUrl = "https://api-expense-tracker.vercel.app/api/categories";
 
   private httpOptions = {
     headers: new HttpHeaders({
